@@ -4,15 +4,15 @@ import styled from 'styled-components';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css';
 
-function Popular() {
+function Starters() {
 
-  let [popular, setPopular] = useState([]);
+  let [starters, setStarters] = useState([]);
 
   useEffect(() => {
-    getPopular();
+    getStarters();
   }, []);
 
-  const url = 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random?number=12';
+  const url = 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random?tags=starters&number=12';
 
   const options = {
     method: 'GET',
@@ -22,46 +22,39 @@ function Popular() {
     }
   };
 
-  let getPopular = async() => {
+  let getStarters = async() => {
 
-    const check = localStorage.getItem('popular');
+    const check = localStorage.getItem('starters');
 
     if(check){
-      setPopular(JSON.parse(check));
+      setStarters(JSON.parse(check));
     } else {
       let api = await fetch(url, options);
       let data = await api.json();
-      localStorage.setItem('popular', JSON.stringify(data.recipes))
-      setPopular(data.recipes);
+      localStorage.setItem('starters', JSON.stringify(data.recipes))
+      setStarters(data.recipes);
       console.log(data.recipes);
     }
   } 
 
   return (
     <div>
-      <h2>Popular Recipes</h2>
-      <Splide options={{
-        perPage: 4,
-        arrow: false,
-        pagination: false,
-        drag: "free",
-        gap: "5rem",
-      }}>
-        {popular.map((recipe) => {
+      <h2>Awesome Starters</h2>
+      <Grid>
+        {starters.map((recipe) => {
           return(
-            <SplideSlide>
-              <Wrapper key={recipe.id}>
-                <Card>
-                    <p>{recipe.title}</p>
-                    <img src={recipe.image} alt={recipe.title}></img>
-                    <Gradient />
-                  </Card>
-              </Wrapper>
-            </SplideSlide>
+              
+                <Wrapper key={recipe.id}>
+                    <Card>
+                        <p>{recipe.title}</p>
+                        <img src={recipe.image} alt={recipe.title}></img>
+                        <Gradient />
+                    </Card>
+                </Wrapper>
+            
           );
-        })}
-      </Splide>
-      
+        })} 
+        </Grid>     
     </div>
   )
 }
@@ -70,7 +63,11 @@ const Wrapper = styled.div`
   margin: 4rem 0rem;
 `;
 
-
+const Grid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: 1em;
+`;
 
 const Gradient = styled.div`
   z-index: 3;
@@ -114,14 +111,5 @@ const Card = styled.div`
 
 `;
 
-export default Popular;
+export default Starters;
 
-/*
-{popular.map((recipe) => {
-        return(
-          <div>
-            <h3>recipe.title</h3>
-          </div>
-        );
-      })}
-*/ 

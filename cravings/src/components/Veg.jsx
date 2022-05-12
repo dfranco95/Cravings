@@ -4,15 +4,15 @@ import styled from 'styled-components';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css';
 
-function Popular() {
+function Veg() {
 
-  let [popular, setPopular] = useState([]);
+    let [veggie, setVeggie] = useState([]);
 
   useEffect(() => {
-    getPopular();
+    getVeggie();
   }, []);
 
-  const url = 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random?number=12';
+  const url = 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random?tags=vegetarian&number=9';
 
   const options = {
     method: 'GET',
@@ -22,32 +22,33 @@ function Popular() {
     }
   };
 
-  let getPopular = async() => {
+  let getVeggie = async() => {
 
-    const check = localStorage.getItem('popular');
+    const check = localStorage.getItem('veggie');
 
     if(check){
-      setPopular(JSON.parse(check));
+      setVeggie(JSON.parse(check));
     } else {
       let api = await fetch(url, options);
       let data = await api.json();
-      localStorage.setItem('popular', JSON.stringify(data.recipes))
-      setPopular(data.recipes);
+      localStorage.setItem('veggie', JSON.stringify(data.recipes))
+      setVeggie(data.recipes);
       console.log(data.recipes);
     }
   } 
 
+
   return (
     <div>
-      <h2>Popular Recipes</h2>
+      <h2>Vegetarian Picks</h2>
       <Splide options={{
-        perPage: 4,
+        perPage: 3,
         arrow: false,
         pagination: false,
         drag: "free",
         gap: "5rem",
       }}>
-        {popular.map((recipe) => {
+        {veggie.map((recipe) => {
           return(
             <SplideSlide>
               <Wrapper key={recipe.id}>
@@ -69,8 +70,6 @@ function Popular() {
 const Wrapper = styled.div`
   margin: 4rem 0rem;
 `;
-
-
 
 const Gradient = styled.div`
   z-index: 3;
@@ -114,14 +113,4 @@ const Card = styled.div`
 
 `;
 
-export default Popular;
-
-/*
-{popular.map((recipe) => {
-        return(
-          <div>
-            <h3>recipe.title</h3>
-          </div>
-        );
-      })}
-*/ 
+export default Veg

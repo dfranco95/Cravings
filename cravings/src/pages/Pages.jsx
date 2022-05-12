@@ -1,12 +1,14 @@
-import React from 'react'
-import Home from './Home'
+import React from 'react';
+import Home from './Home';
+import { Route, Routes } from 'react-router-dom';
 
 function Pages() {
   return (
-    <div>
-        <h2>Pages</h2>
-        <Home />
-    </div>
+    <Routes>
+        <Route path="/" element={<Home/>} ></Route>
+        <Route path="/" element={<Home/>} ></Route>
+        <Route path="/" element={<Home/>} ></Route>
+    </Routes>
   )
 }
 
